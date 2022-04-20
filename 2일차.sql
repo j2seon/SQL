@@ -58,8 +58,11 @@ salary * 12,
 salary*12+ NVL(commission,0) 연봉                -- 전체 연봉
 from employee;
 
+select eno, ename, salary, commission ,salary*12+NVL(commission,0)
+from employee;
 
--- 특정 컬럼의 내용을 중복제거 후 출력 
+
+-- distinct : 특정 컬럼의 내용을 중복제거 후 출력 
 select * from employee;
 select dno from employee; 
 select distinct dno from employee;

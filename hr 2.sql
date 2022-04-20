@@ -1,16 +1,29 @@
+desc employee;
+
 --1.덧셈연산자를 사용하여 모든사원에 대해서 300 의 급여인상을 계산한 후 사원의 이름 급여 인상된 급여를 출력하세요
 select ename,salary, salary+300 인상된급여
 from employee;
 
+
+select eno as 사원번호 , ename 사원명, job 직책, manager "직속상관 id", hiredate 입사날짜 , salary 월급 ,
+commission 보너스,  dno 부서번호
+from employee;
+
+
 --2.사원의 이름 급여 연간 총 수입이 많은 것부터 작은 순으로 출력하시오 연간 총 수입은 100 상여금을 더하시오.
-select ename,salary, salary*12+100 연간총수입
+select ename , salary ,commission, salary*12+100 연간총수입
 from employee
 order by salary desc , salary*12+100 desc;
 
---3.급여가 2000을 넘는 사원의 이름과 급여를 급여가 많은 것부터 작은순으로
-select ename,salary
+select ename , salary ,commission,salary*12 연봉, salary*12+NVL(commission,0)+100 as 연간총수입
 from employee
-where salary>2000
+order by salary desc ,salary*12+NVL(commission,0)+100 desc;
+
+
+--3.급여가 2000을 넘는 사원의 이름과 급여를 급여가 많은 것부터 작은순으로
+select ename,salary  --컬럼명
+from employee   --테이블, 뷰
+where salary>2000 --조건
 order by salary desc ;
 
 --4.사원번호가 7788인 사원의 이름과 부서번호를 출력
@@ -32,13 +45,18 @@ where hiredate between '81/02/20' and '81/05/01';
 --7. 부서 번호가 20~30 에 속한 사원 이름 부서번호 이름 내림차순
 select ename , dno
 from employee
-where dno between 20 and 30
+where dno = 20 or dno=30
+order by ename desc;
+
+select ename , dno
+from employee
+where dno in(20,30)
 order by ename desc;
 
 --8. 사원의 급여가 2000 3000사이 번호가 20 30 인 이름 급여 부서번호 오름차순
 select ename, salary, dno
 from employee
-where salary BETWEEN 2000 AND 3000 and(dno=20 or dno=30)
+where (salary BETWEEN 2000 and 3000)and (dno in(20,30))
 order by ename;
 
 -- 9. 81입사한 사원의 이름과 입사일
@@ -51,28 +69,28 @@ select ename , job
 from employee
 where manager is null;
 
---11. 커미션을 받는 사원 이름의 급여 커머션 급여 커미션 기준 내림차순
+--11. 커미션을 받는 사원 이름, 급여 커미션을 출력하되 급여 및 커미션을 기준으로 내림차순정렬
 select ename, salary, commission
 from employee
 where commission is not null
 order by salary desc, commission desc;
 
---12. 
+--12. 이름의 세번째 문자가 R인 사원의 이름 표시하시오.
 select ename
 from employee
 where ename like '__R%';
 
---13. 
+--13. 이름에 A와 E를 모두 포함하고있는 사원의 이름 표시
 select ename
 from employee
-where ename like '%A%'and ename LIKE '%E%';
+where ename like '%A%E%';
 
 --14. 
 select ename, job, salary
 from employee
-where job in('CLERK','SALESMAN') and (salary= 1600 or salary=950 or salary=1300) ;
+where job in('CLERK','SALESMAN') and salary in(1600,950,1300);
 
---15. 
+--15.  
 select ename , salary , commission
 from employee
 where commission>=500 ;
@@ -166,9 +184,6 @@ where ename like '%N';
 select * 
 from employee
 where substr(hiredate,1,2)=87;
-
-select * from emloyee
-where substr (hiredate,1,2)='87';
 
 --instr (대상, 찾을 글자 , 시작위치, 몇 번째 발견) : 대상에서 찾을 글자의 인덱스 값을 출력.
 
