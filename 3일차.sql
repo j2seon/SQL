@@ -254,6 +254,10 @@ from dual;
 select ename, salary, commission, coalesce(commission,salary,0)
 from employee;
 
+select commission , coalesce(commission,salary,0)
+from employee;
+
+
 --decode 함수 : switch case 문과 동일한 구문 
 /*
 DECODE (표현식, 조건1, 결과1, 
@@ -271,6 +275,13 @@ from employee;
 
 --dno컬럼이 10번 부서일 경우 월급에서 +300 을 처리하고, 20일 경우 월급에 +500 , 부서번호가 30일 경우 월급에 +700을 해서 이름, 월급, 부서별 월급+
 select * from employee;
+
+select ename, dno,salary,decode(dno,10,salary+300,
+                         20,salary+500,
+                         30,salary+700,
+                         salary)인상된월급
+from employee;
+
 
 select ename, salary, dno ,decode(dno ,10, salary+300,
                                        20, salary+500,
@@ -290,7 +301,20 @@ order by dno asc;
   select ename , dno ,case when dno=10 then 'ACCOUNTING'
                            when dno=20 then 'RESEARCH'
                            when dno=30 then 'SALES'
-                          ELSE 'DEFAULT'
+                           ELSE 'DEFAULT'
                     end as 부서명
   from employee
   order by dno;
+  
+  desc employee;
+  
+  select ename , dno, case when dno=10 then salary+300
+                           when dno=20 then salary+500
+                           when dno=30 then salary+700
+                           else salary
+                           end
+ from employee;                                
+  
+  
+  
+  

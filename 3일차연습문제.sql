@@ -1,5 +1,6 @@
 --1.substr 함수를 사용하여 사원들의 입사한 년도와 입사한 달만 출력하시오.
 select * from employee;
+
 select ename, substr(hiredate,1,5)
 from employee;
 
@@ -7,6 +8,10 @@ from employee;
 select * 
 FROM employee
 where substr(hiredate,5,1)=4;
+
+select ename , hiredate
+from employee
+where substr(hiredate,4,2)=09;
 
 --3. mod 함수를 사용하여 직속상관이 홀수 인사원만 출력하시오.
 select * 
@@ -22,9 +27,14 @@ where mod(salary,3) = 0;
 select ename ,to_char(hiredate,'yy-mm-dd dy') as 입사년도
 from employee;
 
+
+
 --5. 올해 몇일이 지났는지 출력하시오 현재 날짜에서 올해 1월 1일을 뺀 결과를 출력하고 Todate함수를 사용하여 데이터형식을 일치
 select trunc(sysdate-to_date('22/01/01')) 
 from dual;
+
+
+select trunc(sysdate - to_date('20220101','yyyymmdd'))as 올해날짜 from dual;
 
 --5-1. 자신이 태어난 날짜에서 현재까지 몇 일이 지났는지 출력 하세요. 
 select trunc(sysdate-to_date('96/04/01')) as 일수
@@ -52,12 +62,18 @@ from employee;
 select eno, rpad(substr(eno,1,2),4,'*')가린번호 , ename, rpad(substr(ename,1,1),4,'*')가린이름
 from employee; 
 
+select eno, rpad(substr(eno,1,2),length(eno),'*')가린번호 , ename, rpad(substr(ename,1,1),length(ename),'*')가린이름
+from employee; 
+
+
 --9.주민번호 앞 6자리 801210-1******로 출력 ,전화번호 : 010-11****** 가려서 출력  
-select rpad(substr('960401-2222222',1,8),14,'*')
+select rpad(substr('960401-2222222',1,8),14,'*')주민번호
 from dual;
 
-select rpad(substr('960401-2222222',1,8),14,'*')
+select rpad(substr('960401-2222222',1,8),length('960401-2222222'),'*')주민번호,
+       rpad(substr('010-1234-5678',1,6),length('010-1234-5678'),'*')전화번호
 from dual;
+
 --10.사원번호,직속상관 , 직속상관의 사원번호가 없을 경우 : 0000으로(마지막 처리) 앞 두자리가 75일 경우 : 5555
                                             --76 :6666 , 77:7777 78 :8888로 출력
 select eno , manager ,decode(substr(manager,1,2), 75,5555,
@@ -67,6 +83,15 @@ select eno , manager ,decode(substr(manager,1,2), 75,5555,
                                                     5555)
 from employee;
         
+
+select eno, ename , manager, case when manager is null then '0000'
+                                  when substr(manager,1,2)=75 then '5555'
+                                  when substr(manager,1,2)=76 then '6666'
+                                  when substr(manager,1,2)=77 then '7777'
+                                  when substr(manager,1,2)=78 then '8888'
+                                else to_char(manager,'9999')
+                                end
+from employee;                             
 
 
 
