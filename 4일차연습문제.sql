@@ -10,6 +10,30 @@ select job,count(job)인원수,max(salary)최고액,min(salary)최저액, sum(salary)총액
 from employee
 GROUP by job;
 
+
+--rollup , cube : group by 절에서 사용하는 특수한 키워드.
+
+select job,count(job)인원수,max(salary)최고액,min(salary)최저액, sum(salary)총액,round(avg(salary))평균
+from employee
+GROUP by rollup(job);--두개 이상의 컬럼을 그룹핑 : 두 컬럼이 모두 만족될때 그룹핑
+
+select dno,job,count(job)인원수,max(salary)최고액,min(salary)최저액, sum(salary)총액,round(avg(salary))평균
+from employee
+GROUP by rollup(dno,job);
+
+
+--cube는 단일로 컬럼일때 표시가 안남 두개이상일때부터 rollup과 차이점이 보임! - orderby로 정렬안하면 섞여서 나오니까 정리하기!
+select job,count(job)인원수,max(salary)최고액,min(salary)최저액, sum(salary)총액,round(avg(salary))평균
+from employee
+GROUP by cube(job) 
+order by job;
+
+select dno,job,count(job)인원수,max(salary)최고액,min(salary)최저액, sum(salary)총액,round(avg(salary))평균
+from employee
+GROUP by cube(job,dno) --두개 이상의 컬럼을 그룹핑 : 두 컬럼이 모두 만족될때 그룹핑
+order by dno asc;
+
+
 --3. count(*)함수를 사용하여 담당 업무가 동일한 사원수를 출력하시오. 
 select job,count(job)
 from employee
