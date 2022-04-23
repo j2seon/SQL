@@ -6,12 +6,12 @@ from employee
 where manager ='7788';
 
 --self join 을 사용해서 사원의 직속상관이름
-select e.eno as"사원번호", e.ename as "사원이름" ,e.manager as "직속상관번호", m.ename as "직속상관이름" 
+select e.eno as"사원번호", e.ename as "사원이름" ,e.manager as "직속상관번호" ,m.eno,m.ename as "직속상관이름" 
 from employee e, employee m --셀프조인 : 별칭을 적어야한다!
 where e.manager =m.eno
 order by e.ename asc;
 
-select e.ename ||'의 직속상관은' ||e.manager || '입니다.'
+select e.ename ||'의 직속상관은' ||e.manager ||m.ename ||'입니다.'
 from employee e, employee m
 where e.manager = m.eno
 order by e.ename asc;
@@ -23,8 +23,7 @@ from employee;
 --ANSI 호환 :INNER JOIN으로 처리,
 
 select e.eno, e.ename , e.manager, m.ename
-from employee e join employee m
-on e.manager =m.eno
+from employee e join employee m on (e.manager =m.eno)
 order by e.ename asc;
 
 --ANSI 호환 :INNER JOIN
@@ -41,8 +40,7 @@ order by e.ename asc;
 
 --Oracle 
 select e.ename, m.ename
-from employee e join employee m
-on e.manager = m.eno (+) -- 오른쪽에 있는게 매칭안되더라도 걍 출력해! 없으면 출력안됌.
+from employee e join employee m on (e.manager = m.eno (+)) -- 오른쪽에 있는게 매칭안되더라도 걍 출력해! 없으면 출력안됌.
 order by e.ename asc;
 
 --Ansi 호환을 사용해서 출력 
@@ -50,7 +48,7 @@ order by e.ename asc;
     -- right Outer JOIN : 공통적인 부분이 없더라도 오른쪽은 무조건 모두 출력 
     -- Full Outer Join : 공통적인 부분이 없더라도 양쪽 모두 무조건 모두 출력 
 select e.ename , m.ename
-from employee e left outer join employee m
+from employee e right outer join employee m
 on e.manager=m.eno
 order by e.ename;
 
@@ -69,7 +67,7 @@ where salary >= (select salary from employee where ename='SCOTT');
 select * from employee;
 
 --SCOTT과 동일한 부서에 근무하는 사원들 출력하기 
- select  e.dno ,e.ename
+ select  e.dno ,e.ename, d.dname
  from employee e, department d;
  
 select dno from employee where ename ='SCOTT';
@@ -79,7 +77,9 @@ select ename , dno
 from employee 
 where dno=(select dno from employee where ename ='SCOTT');
 
-
+select ename
+from employee 
+where dno=(select dno from employee where ename='SCOTT');
 
 --최소 급여를 받는 사원의 이름 담당업무 급여 출력하기
 select min (salary) from employee;
@@ -87,6 +87,9 @@ select ename, job, salary
 from employee
 where salary =(select min(salary)from employee);
 
+select ename, job, dno, salary
+from employee
+where salary = (select min(salary) from employee);
 
 --having 절에 sub query 사용하기
 

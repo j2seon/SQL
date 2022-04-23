@@ -285,7 +285,7 @@ and salary >2000;
 
 --NATURAL                        
 select ename, salary, dname, dno  --dno : 명시하면 오류발생!!!(natural join)
-from employee natural join department d
+from employee natural join department 
 where salary >2000;
 
 --ANSI : INNER JOIN
