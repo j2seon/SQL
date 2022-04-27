@@ -141,7 +141,7 @@ drop table dept30;
     테이블의 내용이나 테이블 삭제 시 
     1. delete  : 테이블의 레코드를 삭제, where를 사용하지 않을 시 모든 레코드 삭제.<포멧>
     2. truncate  : 테이블의 레코드를 삭제 , 속도가 굉장히 빠르다.<빠른포멧>
-    3.drop      :테이블 자체를 삭제
+    3. drop      :테이블 자체를 삭제
 */
 
 create table emp30
@@ -220,7 +220,7 @@ select * from dba_tables; -- 괁리자 계정에서만 실행이 가능하다!!!
 
 
 /*
-    Freign Key (참조키 ): 다른 테이블의 Primary Key Unique 컬럼을 참조해서 값을 할당.
+    Foreign Key (참조키 ): 다른 테이블의 Primary Key Unique 컬럼을 참조해서 값을 할당.
     
 */
 
