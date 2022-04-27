@@ -183,6 +183,9 @@ enable NOVALIDATE constraint PK_tb_zipcode_zipcode;
 alter table tb_zipcode 
 enable NOVALIDATE constraint PK_tb_zipcode_zipcode cascade;
 
+alter table member
+enable novalidate constraint FK_member_zipcode_tb_zipcode cascade;
+
 
 --zip_seq 컬럼의 정렬이 제대로 안된이유 , 제대로 정렬되도록 해보세요.
 -- 숫자가 아니라 문자타입이라서 제대로 안됐다. to number로 숫자로 형번환 후 정렬)
