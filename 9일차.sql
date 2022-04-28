@@ -174,6 +174,10 @@ drop index id_emp_ename;
 select * from emp_copy90
 where job='SALESMAN';
 
+select * from emp_copy90
+where ename='WARD';
+
+
 
 /*
     Index는 주기적으로 rebuild 해줘야한다. (1주일, 한달 주기)

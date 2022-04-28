@@ -35,10 +35,9 @@ grant create table to usertest01;
 select * from dba_users;        -- dba_ :sys (최고 관리자 계정에서 확인)
 select username, default_tablespace as Datafile , temporary_tablespace as LogFile
 from dba_users
-where username in('HR','USERTEST01');
+where username in('HR','USERTES T01');
 
 --계정에게 테이블 스페이스 변경(SYSTEM==>USERS) 변경
-
 alter user usertest01
 default tablespace users
 temporary tablespace temp;
