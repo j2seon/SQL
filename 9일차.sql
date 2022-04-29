@@ -61,6 +61,8 @@ create SEQUENCE emp_seq_no
 INCREMENT by 1
 start with 1
 NOCACHE;
+
+
 --테이블 생성
 create table emp_copy80
 as

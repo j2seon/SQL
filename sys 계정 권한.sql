@@ -39,8 +39,19 @@ where username in('HR','USERTES T01');
 
 --계정에게 테이블 스페이스 변경(SYSTEM==>USERS) 변경
 alter user usertest01
-default tablespace users
-temporary tablespace temp;
+default tablespace users  --Datafile 저장 : 객체가 저장되는 공간 (테이블 ,뷰, 트리거, 인덱스)
+temporary tablespace temp;  --temporary tablespace temp : LOG를 저장하는 공간 DML{insert upadate delete가 실행되면 LOG에 기록이 된다.}
+                            --LOG를 호칭할때 Trasaction Log. 시스템에 문제 발생 시 백업 시점이 아니라 오류난 시점까지 복원하기 위해서 필요
+                            
+                            
+--테이블 스페이스 : 객체와 로그를 저장하는 물리적인 파일
+    -- DataFile : 객체를 저장하고 있다.(테이블, 뷰,인덱스....)
+    -- Log :transaction Log를 저장 
+    -- DataFile과 Log 파일은 물리적으로 다른 하드공간에 저장해야 성능을 높일 수 있다.
+        --RAID 된 공간에 저장하면 성능을 높일 수 있다.
+                            
+                            
+                            
 
 --계정에게 Users 테이블 스페이스를 사용할 수 있는 공간 할당.users 테이블 스페이스에 2mb를 사용할 수 있는 공간 할당.
 alter user usertest01
