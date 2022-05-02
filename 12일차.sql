@@ -54,7 +54,7 @@ declare
     select eno,ename into v_eno,v_ename
     from employee
     where ename = 'SCOTT';
-    dbms_output.put_line(V_eno ||'   '|| v_ename);
+    dbms_output.put_line(v_eno ||'   '|| v_ename);
     end;
     /
     

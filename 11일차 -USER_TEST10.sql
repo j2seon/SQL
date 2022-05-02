@@ -15,7 +15,7 @@ select * from test10tbl;
 select * from employee;          --오류발생
 select * from HR.employee;       -- 다른사용자의 객체를 접근할때 권한이 있어야한다.
 
---다른 사용자 테이블에서 isert 권한.
+--다른 사용자 테이블에서 insert 권한.
 desc hr.employee;
 select * from hr.emp_copy55; --오류남 : 권한이 부여되지 않았음!!! / 부여하고 나면 가능 grant select on hr.emp_copy55 to user_test10(sys 에서)
 

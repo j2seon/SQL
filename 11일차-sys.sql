@@ -7,9 +7,9 @@ grant create session, create table, create view to user_test10;
 
 --기본적으로 계정을 생성하면 system 테이블 스페이스를 사용한다.<===관리자만 사용가능한 테이블 스페이스 
 --테이블 스페이스 바꾸기. (users table space로)
-alter user user_test10
-default tablespace "USERS"
-temporary tablespace "TEMP";
+alter user user_test10              
+default tablespace "USERS"         
+temporary tablespace "TEMP";        
 
 -- 테이블 스페이스 용량 할당
 ALTER USER "USER_TEST10" QUOTA UNLIMITED ON "USERS";
@@ -85,7 +85,7 @@ grant roletest2 to user_test10;  --롤을 계정에게 적용! 해당롤은 hr.employee의sel
 -- roletest3 :select insert delete /user_test10에 적용
 
 create role roletest3;
-grant select,insert,dselectelete on hr.dept_copy57 to roletest3;
+grant select,insert,delete on hr.dept_copy57 to roletest3;
 grant roletest3 to user_test10;
 
 select * from role_sys_privs
