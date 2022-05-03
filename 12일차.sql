@@ -91,8 +91,8 @@ declare
         v_employee.job:=ANALYST
         v_employee.manager :=7566
         v_employee.hiredate :=87/07/03
-        v_employee.
-        v_employee.
+        v_employee.dno :=
+        v_employee.salary :=
     
     */
     select * from employee 
@@ -251,8 +251,7 @@ DECLARE
     V_EMP EMPLOYEE%ROWTYPE;
     V_DEP DEPARTMENT%ROWTYPE;
 
-    CURSOR C2
-    IS
+    CURSOR C2 IS
     SELECT ENAME, DNAME ,LOC, SALARY
     FROM EMPLOYEE E , department D 
     WHERE E.DNO=D.DNO;
@@ -267,6 +266,72 @@ BEGIN
     END LOOP;
     CLOSE C2;
 END;
+/
+
+/*cursor for loop문으로 커서를 사용해서 여러 레코드셋 출력 하기
+    - open, close를 생략해서 사용
+    - 한 테이블의 전체내용을 출력할 때 사용.
+*/
+set serveroutput on
+declare 
+    V_DEPT DEPARTMENT%ROWTYPE;
+    CURSOR C1 IS
+    SELECT * FROM DEPARTMENT;
+begin 
+    DBMS_OUTPUT.PUT_LINE('부서번호      부서명     지역명');
+    DBMS_OUTPUT.PUT_LINE('-------------------------------');
+    FOR D_DEPT IN C1 LOOP
+        DBMS_OUTPUT.PUT_LINE(D_DEPT.DNO || '    '||D_DEPT.DNAME||'      '|| D_DEPT.LOC );
+    END LOOP;
+end;
+/
+
+SET SERVEROUTPUT ON
+DECLARE
+    V_EMPT EMPLOYEE%ROWTYPE;
+    CURSOR C2 IS 
+    SELECT * FROM EMPLOYEE;
+BEGIN
+    FOR C2_RE IN C2 LOOP
+    DBMS_OUTPUT.PUT_LINE(C2_RE.ENO||' '||C2_RE.ENAME||' '||C2_RE.SALARY||' '||C2_RE.DNO);   
+    END LOOP;
+END;
+/
+SELECT * FROM EMPLOYEE;
+    
+SET SERVEROUTPUT ON
+DECLARE
+    V_EMPT EMPLOYEE%ROWTYPE;
+    CURSOR C3 IS 
+    SELECT * FROM EMPLOYEE
+    WHERE DNO IN ('10','20')
+    AND SALARY>=2000;
+BEGIN
+    FOR C3_RE IN C3 LOOP
+    DBMS_OUTPUT.PUT_LINE(C3_RE.ENO||' '||C3_RE.ENAME||' '||C3_RE.SALARY||' '||C3_RE.DNO);   
+    END LOOP;
+END;
+/
+
+SELECT * FROM EMPLOYEE;   
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
