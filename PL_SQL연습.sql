@@ -82,5 +82,103 @@ BEGIN  --거꾸로는 FOR i IN REVERSE 1..3 LOOP
     END LOOP;
 END;
 /
+----------------------------CURSOR--------------------------
+DECLARE
+    V_DEPT DEPARTMENT%ROWTYPE;
+    CURSOR CUR1 IS
+    SELECT * FROM DEPARTMENT;
+BEGIN
+    OPEN CUR1;
+    LOOP
+        FETCH CUR1 INTO V_DEPT;
+        EXIT WHEN CUR1%NOTFOUND;
+    DBMS_OUTPUT.PUT_LINE(V_DEPT.DNO||'  '||V_DEPT.DNAME||'  '||V_DEPT.LOC);
+    END LOOP;
+END;
+/
+    
+--------------------------FOR LOOP------------------------
+DECLARE
+    V_EMPO EMPLOYEE%ROWTYPE;
+    CURSOR C1 IS
+    SELECT * FROM EMPLOYEE
+    WHERE DNO=20;
+BEGIN
+    FOR V_EMPO IN C1 LOOP
+    DBMS_OUTPUT.PUT_LINE(V_EMPO.ENO||'  '||V_EMPO.ENAME||'  '||V_EMPO.SALARY);
+    END LOOP;
+END;
+
+
+--------------------------프로시져--------------------------
+SET SERVEROUTPUT ON
+CREATE OR REPLACE PROCEDURE SP_SALARY1
+IS
+    V_EMPO EMPLOYEE.SALARY%TYPE;
+BEGIN
+    SELECT SALARY INTO V_EMPO
+    FROM EMPLOYEE
+    WHERE ENAME = 'SCOTT';
+    
+    DBMS_OUTPUT.PUT_LINE('SCOOT의 급여는 : '||V_EMPO||'입니다');
+END;
+/
+
+EXEC SP_SALARY1;
+
+----------------------------인풋매개변수 프로시져-------------------
+CREATE OR REPLACE PROCEDURE SP_IN(
+    V_ENAME EMPLOYEE.ENAME%TYPE
+)
+IS
+    V_EMPO EMPLOYEE%ROWTYPE;
+BEGIN 
+    SELECT * INTO V_EMPO
+    FROM EMPLOYEE
+    WHERE ENAME=V_ENAME;
+    DBMS_OUTPUT.PUT_LINE(V_ENAME || '의 급여는 '||V_EMPO.SALARY || '입니다.');  
+END;
+/
+EXEC SP_IN('SCOTT');
+
+--------------------------------------------------------------
+CREATE OR REPLACE PROCEDURE SP_DNO1(
+    V_DNO IN EMPLOYEE.DNO%TYPE
+)
+IS
+    V_EMPO EMPLOYEE%ROWTYPE;
+    CURSOR C1 IS
+    SELECT * FROM EMPLOYEE
+    WHERE DNO=V_DNO;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('사원이름'||'    '||'직책'||'    '||'부서번호');
+    FOR V_EMPO IN C1 LOOP
+    DBMS_OUTPUT.PUT_LINE(V_EMPO.ENAME||'    '||V_EMPO.JOB||'    '||V_EMPO.DNO);
+END LOOP;
+END;
+/
+EXEC SP_DNO1(10);
+
+--------------------------테이블 생성 -------------------------
+CREATE OR REPLACE PROCEDURE SP_CREATETB(
+    V_NAME IN VARCHAR2
+)
+IS 
+    CURSORID INTEGER; 
+    V_SQL VARCHAR2(100);
+BEGIN 
+    V_SQL := 'CREATE TABLE'||V_NAME||'AS SELECT * FROM EMPLOYEE';
+    CURSORID := DBMS_SQL.OPEN_CURSOR;
+    DBMS_SQL.PARSE(CURSORID , V_SQL, DBMS_SQL.V7);
+    DBMS_SQL.CLOSE_CURSOR(CURSORID);
+END;
+/
+GRANT CREATE TABLE TO PUBLIC;
+
+EXEC SP_CREATETB('EMP_COPY77');
+
+
+
+
 
 

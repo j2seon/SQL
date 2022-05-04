@@ -73,11 +73,11 @@ SELECT * FROM EMPLOYEE;
 /*부서번호를 INPUT 받아서 이름 직책 부서번호 컬럼을 출력하는 저장 프로시져 생성*/
 
 CREATE OR REPLACE PROCEDURE SP_DNO(
-    V_DNO EMPLOYEE.DNO%TYPE
+    V_DNO IN EMPLOYEE.DNO%TYPE
 )
 IS
     CURSOR C1 IS
-    SELECT * FROM EMPLOYEE
+    SELECT ENAME,JOB,DNO FROM EMPLOYEE
     WHERE DNO=V_DNO;
 BEGIN
      DBMS_OUTPUT.PUT_LINE('사원이름'||'    '||'직책'||'    '||'부서번호');
@@ -87,7 +87,7 @@ BEGIN
 END;
 /
 
-EXEC SP_DNO(20);
+EXEC SP_DNO(10);
 
 
 /*테이블 이름을 인풋 받아서 EMPLOYEE 테이블을 복사해서 생성하는 저장프로시져를 생성하세요*/
@@ -131,10 +131,10 @@ BEGIN
     WHERE ENAME=V_ENAME;
 END;
 /
---주석처리 주의
+--주석처리 주의 --호출부에서 아웃풋 매개변수를 선언-- :VAR_SALARY <== : 주의 
 SELECT * FROM USER_SOURCE WHERE NAME='SP_SALARY_ENAME2'; --데이터 사전에서 확인 
-VARIABLE VAR_SALARY VARCHAR2(50); --호출부에서 아웃풋 매개변수를 선언
-EXEC SP_SALARY_ENAME2('SCOTT', :VAR_SALARY); -- :VAR_SALARY <== : 주의 
+VARIABLE VAR_SALARY VARCHAR2(50);
+EXEC SP_SALARY_ENAME2('SCOTT', :VAR_SALARY); 
 PRINT VAR_SALARY;
     
     
